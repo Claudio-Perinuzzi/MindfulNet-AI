@@ -11,7 +11,7 @@ import java.lang.Math;
  * whether a new user's profile is at risk of social media addiction.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-public class DecisionTree implements Serializable{
+public class DecisionTree implements Serializable {
 	
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     * FIELDS
@@ -48,7 +48,6 @@ public class DecisionTree implements Serializable{
     public DecisionNode getRoot() {
         return this.root;
     }
-
 
 	// Build the tree starting from the root
     public void buildTree(int numOfFeatures) {
@@ -91,7 +90,6 @@ public class DecisionTree implements Serializable{
 	        }
 	    }
 
-
         // Set the parents nodes feature index that we will split on and the corresponding threshold
         parentNode.setFeatureIndex(bestFeatureIndexToSplit);
         parentNode.setThreshold(bestThreshold);
@@ -132,10 +130,10 @@ public class DecisionTree implements Serializable{
         for (int r = 0; r < data.getRows(); r++) {
             String value = data.getValue(r, featureIndex);
             if (!count.containsKey(value)) count.put(value, 1);   // Put in if value doesn't exist yet
-            else count.put(value, count.get(value) + 1);                // Increment count if value exists already
+            else count.put(value, count.get(value) + 1);          // Increment count if value exists already
         }
         
-        // Iterate through and count to find mode
+        // Iterate through and count to find the mode
         String modeThreshold = null;
         int max = 0;
         for (String value : count.keySet()) {
@@ -178,7 +176,6 @@ public class DecisionTree implements Serializable{
         // If the right side has no labels, there was a full split and the gini impurity is 0
         if (rightCountLabel0 == 0 || rightCountLabel1 == 0) giniImpurityRight = 0.0;
         else giniImpurityRight = calculateGiniImpurity(rightCountLabel0, rightCountLabel1);
-
 
         // Calculate IG based on giniImpurities
         int totalSamples = leftCountLabel0 + leftCountLabel1 + rightCountLabel0 + rightCountLabel1;
@@ -227,10 +224,15 @@ public class DecisionTree implements Serializable{
     }
 
     // Helper function used to calculate information gain
-    private double calculateGiniImpurity(int countLabel0, int countLabel1) {
+    protected double calculateGiniImpurity(int countLabel0, int countLabel1) {
+        if (countLabel0 < 0 || countLabel1 < 0) {
+            throw new IllegalArgumentException("Counts cannot be negative.");
+        }
+        
         // Total number of labels
         int totalSamples = countLabel0 + countLabel1; 
-
+        if (totalSamples == 0) return 0.0; // 0 impurity
+        
         // Probabilities of each label
         double probability0 = (double) countLabel0 / totalSamples;
         double probability1 = (double) countLabel1 / totalSamples;
@@ -242,7 +244,7 @@ public class DecisionTree implements Serializable{
     }
 
     // Randomly select different columns of the bootstrapped data
-    private int[] featureSelect(int numOfFeatures) {
+    protected int[] featureSelect(int numOfFeatures) {
     	Random rand = new Random();
     	int[] randomColumns = new int[numOfFeatures];
     	for (int i = 0; i < numOfFeatures; i++) {
