@@ -33,6 +33,7 @@ logs/
 *.zip
 *.tar.gz
 *.rar
+bin/
 
 # Operating System Files
 .DS_Store
