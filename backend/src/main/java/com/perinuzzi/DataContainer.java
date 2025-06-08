@@ -11,14 +11,13 @@ import java.util.Random;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  * Data Container Class 
  * Reads in and loads the dataset into a 2D String called data. The dataset is static 
- * initialized to only load in once. The rest of the class contains the  methods for 
+ * initialized to load in only once. The rest of the class contains the  methods for 
  * manipulating and handling the data in the 2D String object.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 public class DataContainer implements Serializable{
 
-    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     * FIELDS
     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,7 +31,7 @@ public class DataContainer implements Serializable{
             e.printStackTrace();
         }
     }
-    private String[][] data; //userInput data or bootstrapped data, for ex) userData = data[0][12] 
+    private String[][] data; //userInput data or bootstrapped data, e.g. userData = data[0][12] 
     private int rows;
     private int columns;
     private int countLabel0; //count of labels for no is not addicted
@@ -43,7 +42,7 @@ public class DataContainer implements Serializable{
     * CONSTRUCTORS
     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    // Dataset constructor
+    // Dataset constructor for test and train
     public DataContainer(String testFilePath, boolean test) {
         if (test) {
             try {
@@ -56,7 +55,7 @@ public class DataContainer implements Serializable{
             this.data = dataset;
             this.rows = 800;    
         }
-        this.columns = 13;                                 // 13, the last column will contain the label, either 1 or 0
+        this.columns = 13;                           // 13, the last column will contain the label, either 1 or 0
         this.countLabel0 = countLabels(data, 0);     // Count the 0's for this data
         this.countLabel1 = countLabels(data, 1);     // Count the 1's for this data    
     }
@@ -88,10 +87,48 @@ public class DataContainer implements Serializable{
         this.data = new String[rows][columns];
     }
 
+    // default constructor for Jackson deserialization
+    public DataContainer() {}
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     * METHODS
     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    public String[][] getData() {
+        return this.data;
+    }
+
+    public void setData(String[][] data) {
+        this.data = data;
+        if (data != null && data.length > 0 && data[0].length > 0) {
+            this.rows = data.length;
+            this.columns = data[0].length;
+            this.countLabel0 = countLabels(data, 0);
+            this.countLabel1 = countLabels(data, 1);
+        } 
+        else {
+            this.rows = 0;
+            this.columns = 0;
+            this.countLabel0 = 0;
+            this.countLabel1 = 0;
+        }
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+    
+    public void setCountLabel0Test(int countLabel0) {
+        this.countLabel0 = countLabel0;
+    }
+
+    public void setCountLabel1Test(int countLabel1) {
+        this.countLabel1 = countLabel1;
+    }
     
     public String getValue(int r, int c) {
         return this.data[r][c];
@@ -126,12 +163,12 @@ public class DataContainer implements Serializable{
     }
 
     // Helper for setting the number of 0 labels
-    private void SetCountLabel0() {
+    protected void SetCountLabel0() {
         this.countLabel0 = countLabels(this.data, 0);
     }
 
     // Helper for setting the number of 1 labels
-    private void SetCountLabel1() {
+    protected void SetCountLabel1() {
         this.countLabel1 = countLabels(this.data, 1);
     }
 
@@ -173,9 +210,6 @@ public class DataContainer implements Serializable{
                 for (int col = 0; col < dataset[row].length && col < rowData.length; col++) {
                     dataset[row][col] = rowData[col];
                 }
-                // int timeSpent = Integer.parseInt(rowData[2]);   // Get time spent
-                // if (timeSpent >= 4) dataset[row][12] = "1";     // If a profile in the dataset spends >= 4 hours, assign a true label
-                // else dataset[row][12] = "0";
                 row++;
             }
         return dataset;
@@ -217,7 +251,7 @@ public class DataContainer implements Serializable{
     private String dataImputation(int c) {
 
         // Count the unique values of a given column
-        HashMap<String, Integer> count = new HashMap<>();       // Hash map used to keep track of count
+        HashMap<String, Integer> count = new HashMap<>();      // Hash map used to keep track of count
         for (int r = 0; r < 800; r++) {                        // Iterate through values of that column
             String value = dataset[r][c];
             if (!count.containsKey(value)) count.put(value, 1);  
@@ -236,7 +270,6 @@ public class DataContainer implements Serializable{
         return mode;
     }
 
-    
     // Bootstraps the data (randomly select rows with replacement)
     private void bootStrap(int columns) {
         Random rand = new Random();
