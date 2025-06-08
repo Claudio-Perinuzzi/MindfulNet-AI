@@ -9,6 +9,9 @@ import java.io.IOException;
  * TRAIN
  * Finds the most accurate forest and serializes it to "model/randomForestModel.ser"
  * Inference can be performed by loading in the serialized binary
+ * 
+ * To Run:
+ *      java -cp target/classes com.perinuzzi.Train
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 public class Train {
