@@ -45,3 +45,6 @@ Thumbs.db
 # Ignore local config files
 *.properties.local
 *.yml.local
+
+# Config
+config.properties 
