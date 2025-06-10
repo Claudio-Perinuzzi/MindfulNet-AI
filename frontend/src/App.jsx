@@ -20,8 +20,7 @@ function App() {
     const dataToSend = formData;
 
     try {
-      const response = await fetch('/api/predict', {
-        method: 'POST',
+      const response = await fetch('https://mindfulnet-ai-java-backend.onrender.com/predict', {         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
