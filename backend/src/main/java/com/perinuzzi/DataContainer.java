@@ -26,7 +26,7 @@ public class DataContainer implements Serializable{
     private static String[][] dataset;               // Static initialized, shared by all instances of the class
     static {
         try {
-            dataset = loadDataset("src/main/resources/data/user_social_media_profiles_train.csv", 800);
+            dataset = loadDatasetFromClasspath("/data/user_social_media_profiles_train.csv", 800);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -213,6 +213,29 @@ public class DataContainer implements Serializable{
                 row++;
             }
         return dataset;
+        }
+    }
+
+ 
+    // Loads dataset from classpath resource
+    private static String[][] loadDatasetFromClasspath(String resourcePath, int rows) throws IOException {
+        try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(
+            DataContainer.class.getResourceAsStream(resourcePath)))) {
+
+            br.readLine(); // skip header
+            String line;
+            int row = 0;
+            String dataset[][] = new String[rows][13];
+
+            while ((line = br.readLine()) != null && row < rows) {
+                String[] rowData = line.split(",");
+                for (int col = 0; col < dataset[row].length && col < rowData.length; col++) {
+                    dataset[row][col] = rowData[col];
+                }
+                row++;
+            }
+
+            return dataset;
         }
     }
 

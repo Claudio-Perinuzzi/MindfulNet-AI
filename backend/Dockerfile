@@ -12,9 +12,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/predict.jar ./predict.jar
 
-# Copy the CSV data file into the image
-COPY src/main/resources/data/user_social_media_profiles_train.csv ./src/main/resources/data/user_social_media_profiles_train.csv
-
 EXPOSE 8080
 
 CMD ["java", "-jar", "predict.jar"]
