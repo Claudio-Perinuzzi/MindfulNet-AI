@@ -9,7 +9,11 @@ RUN mvn package
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
+
 COPY --from=build /app/target/predict.jar ./predict.jar
+
+# Copy the CSV data file into the image
+COPY src/main/resources/data/user_social_media_profiles_train.csv ./src/main/resources/data/user_social_media_profiles_train.csv
 
 EXPOSE 8080
 
