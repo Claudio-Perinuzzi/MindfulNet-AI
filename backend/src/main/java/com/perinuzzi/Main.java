@@ -21,7 +21,7 @@ import java.util.Map;
  * 
  * Starting the backend:
  *      mvn clean install
- *      java -jar target/backend-shaded.jar  
+ *      java -jar target/predict.jar  
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 public class Main {
