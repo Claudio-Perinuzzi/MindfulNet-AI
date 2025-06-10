@@ -35,7 +35,20 @@ function PredictionForm({ onSubmit, loading }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="prediction-form">
+    <>
+      <h1 className="Title">
+        Mindful<span className="ai-gradient-left">NET</span>{' '}
+        <span className="ai-gradient-right">AI</span>
+      </h1>
+
+      <div className="Info-header">
+        Are you addicted to social media?
+        <br />
+        <br />
+        Find out below!
+      </div>
+      
+      <form onSubmit={handleSubmit} className="prediction-form">
       <h2>Enter User Data:</h2>
 
       {/* Age */}
@@ -212,6 +225,7 @@ function PredictionForm({ onSubmit, loading }) {
         {loading ? 'Predicting...' : 'Get Prediction'}
       </button>
     </form>
+    </>
   );
 }
 
