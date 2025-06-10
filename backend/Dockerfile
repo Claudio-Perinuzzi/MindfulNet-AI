@@ -1,17 +1,24 @@
-# Step 1: Use Maven to build the app
-FROM maven:3.9.6-eclipse-temurin-17 AS build
-
-WORKDIR /app
-COPY . .
-RUN mvn package
-
-# Step 2: Use a lightweight Java runtime to run the app
-FROM eclipse-temurin:17-jre
+# Use a JDK image to compile your Java code
+FROM eclipse-temurin:11-jdk-focal AS build
 
 WORKDIR /app
 
+# Copy the pom.xml and source code
+COPY pom.xml .
+COPY src ./src
+
+# Build the application
+RUN mvn clean install -DskipTests
+
+# Use a JRE image since we only need to run the JAR
+FROM eclipse-temurin:11-jre-focal
+
+WORKDIR /app
+
+# Copy the shaded JAR from the build stage
 COPY --from=build /app/target/predict.jar ./predict.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "predict.jar"]
+ENTRYPOINT ["java", "-jar", "predict.jar"]
+
