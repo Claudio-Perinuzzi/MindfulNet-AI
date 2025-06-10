@@ -1,0 +1,74 @@
+.prediction-form {
+    background-color: #282c34;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    min-width: 400px;
+    margin: 10px auto;
+    color: white;
+  }
+  
+  .prediction-form h2 {
+    color: #61dafb;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group select {
+    width: calc(100% - 20px); 
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #3a3f4a;
+    color: white;
+    font-size: 1em;
+    box-sizing: border-box; 
+  }
+  
+  .form-group input[type="checkbox"] {
+    margin-right: 10px;
+    margin-left: 12px;
+    transform: scale(1.2);
+  }
+  
+  .form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+  }
+  
+  .predict-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .predict-button:hover:not(:disabled) {
+    background-color: #4fa3d1;
+  }
+  
+  .predict-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
