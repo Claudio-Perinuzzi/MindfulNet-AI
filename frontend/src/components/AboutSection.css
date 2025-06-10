@@ -1,0 +1,28 @@
+.about-button {
+    position: absolute; 
+    top: 20px;         
+    right: 20px; 
+    background-color: transparent; 
+    color: #61dafb;    
+    border: 1px solid #61dafb; 
+    border-radius: 5px; 
+    padding: 8px 15px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    z-index: 10; 
+  }
+  
+  .fade {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  
+  .fade.show {
+    opacity: 1;
+  }
+  
+  .about-section {
+    transition: opacity 0.6s ease-in-out;
+  }
