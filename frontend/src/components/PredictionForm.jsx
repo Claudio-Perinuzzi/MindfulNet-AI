@@ -222,7 +222,7 @@ function PredictionForm({ onSubmit, loading }) {
 
 
       <button type="submit" disabled={loading} className="predict-button">
-        {loading ? 'Predicting...' : 'Get Prediction'}
+        {loading ? 'Starting server, please wait a few seconds...' : 'Get Prediction'}
       </button>
     </form>
     </>
